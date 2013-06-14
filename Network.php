@@ -1,7 +1,5 @@
 <?php
 
-require_once "ip_helpers.php";
-
 abstract class Network
 {
 	protected $address;
@@ -15,7 +13,10 @@ abstract class Network
 	public function __construct($address, $bitmask)
 	{
 		if ($bitmask > $this->length - 2)
-			throw new OutOfRangeException();
+			throw new OutOfRangeException("Bitmask must be 2 bits less than the bitlength of the address type");
+		
+		if ($bitmask < 1)
+			throw new OutOfRangeException("Bitmask must be at least 1 bit");
 
 		if ( ! $this->verifyAddress($address))
 			throw new InvalidArgumentException();
