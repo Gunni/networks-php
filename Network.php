@@ -38,7 +38,7 @@ abstract class Network
 		if ($bitmask > $this->length - 2)
 			throw new OutOfRangeException("Bitmask must be 2 bits less than the bitlength of the address type");
 		
-		if ($bitmask < 1)
+		if ($bitmask <= 1)
 			throw new OutOfRangeException("Bitmask must be at least 1 bit");
 
 		if ( ! $this->verifyAddress($address))
@@ -240,14 +240,15 @@ function ip2long6($ipv6)
 		return sprintf('%08b', ord($ip_n[$bytes]));
 	}, range(0, 15)));
 
-    return gmp_strval(gmp_init($ipv6long, 2));
+	return gmp_strval(gmp_init($ipv6long, 2));
 }
 
 function long2ip6($ipv6long, $compress = true)
 {
 	$bin = sprintf('%0128s', gmp_strval($ipv6long, 2));
 
-	$ipv6 = implode(':', array_map(function($bytes) use ($bin) {
+	$ipv6 = implode(':', array_map(function($bytes) use ($bin)
+	{
 		$bin_part = substr($bin, $bytes * 16, 16);
 		
 		return str_pad(dechex(bindec($bin_part)), 4, '0', STR_PAD_LEFT);
