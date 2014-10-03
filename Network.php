@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2013 Gunnar Guðvarðarson, Gabríel Arthúr Pétursson
+ * Copyright (c) 2013, 2014 Gunnar Guðvarðarson, Gabríel Arthúr Pétursson
  * 
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -229,14 +229,17 @@ abstract class Network
 	}
 }
 
+// Various helpers
+
 function ip2long6($ipv6)
 {
-    if (filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false)
-        return false;
+	if (filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false)
+		return false;
 
-    $ip_n = inet_pton($ipv6);
+	$ip_n = inet_pton($ipv6);
 	
-	$ipv6long = implode('', array_map(function($bytes) use ($ip_n) {
+	$ipv6long = implode('', array_map(function($bytes) use ($ip_n)
+	{
 		return sprintf('%08b', ord($ip_n[$bytes]));
 	}, range(0, 15)));
 
